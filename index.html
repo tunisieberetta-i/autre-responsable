@@ -1,1 +1,49 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <!-- Indispensable pour adapter l'affichage aux écrans mobiles -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Embedded Content</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden; /* Empêche le double défilement sur petit écran */
+    }
+  </style>
+</head>
+<body>
+  
+  <!-- NOUVEAU : Couche invisible qui capte le premier clic -->
+  <div id="couche-invisible" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 9999;"></div>
+
+  <iframe 
+    src="https://script.google.com/macros/s/AKfycbyeR1oq3zE9OmM0kIApf5S_aMtUlAjD_3Lse-ZiRCTc2oEvEf6UlbeoFwFxwixfuJaZVg/exec" 
+    width="100%"
+    height="100%"
+    allowfullscreen="true"
+    style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; border: none;">
+  </iframe>
+
+  <script>
+    // MODIFICATION : Au lieu de window.onload, on attend le premier clic sur l'écran
+    const coucheInvisible = document.getElementById('couche-invisible');
+
+    coucheInvisible.addEventListener('click', function() {
+      // 1. Active le plein écran (autorisé car c'est déclenché par un clic humain)
+      document.querySelector('iframe')
+        .requestFullscreen()
+        .catch((err) => {
+          console.error('Error attempting to enable full-screen mode:', err.message);
+        });
+
+      // 2. Fait disparaître la couche invisible pour que l'iframe soit utilisable
+      coucheInvisible.style.display = 'none';
+    });
+  </script>
+</body>
+</html>
 
